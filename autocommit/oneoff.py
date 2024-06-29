@@ -76,6 +76,20 @@ def commit() -> str:
     os.system(f"git commit -m '{message}'")
 
 
+def branch() -> str:
+    args = add_common_args(argparse.ArgumentParser(
+        "branch", description="Generates a branch name for a diff from stdin")).parse_args()
+    description = build_prompt(
+        "Write a branch name which a following diff could reside in", args.language)
+
+    diff = git_diff_into_string()
+    if diff == "":
+        print("No changes, refusing to create branch")
+        return
+    branch_name = Chat(description=description).send(diff)
+    os.system(f"git checkout -b {branch_name}")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("preset", choices=[
