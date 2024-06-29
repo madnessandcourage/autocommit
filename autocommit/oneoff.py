@@ -6,9 +6,9 @@ import os
 
 
 def wrap_errors(func):
-    def wrapper():
+    def wrapper(*args, **kwargs):
         try:
-            func()
+            func(*args, **kwargs)
         except KeyboardInterrupt as e:
             pass
         except BaseException as e:
