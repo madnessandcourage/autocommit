@@ -5,6 +5,18 @@ import subprocess
 import os
 
 
+def wrap_errors(func):
+    def wrapper():
+        try:
+            func()
+        except KeyboardInterrupt as e:
+            pass
+        except BaseException as e:
+            print(str(e))
+    return wrapper
+
+
+@wrap_errors
 def add_common_args(parser: argparse.ArgumentParser):
     parser.add_argument("--engine", default="gpt3.5-turbo",
                         help="OpenAI engine to use for completion",
@@ -14,10 +26,12 @@ def add_common_args(parser: argparse.ArgumentParser):
     return parser
 
 
+@wrap_errors
 def build_prompt(base: str, language: str) -> str:
     return f"{base}. \n\nUse language: {language}"
 
 
+@wrap_errors
 def tldr() -> str:
     args = add_common_args(argparse.ArgumentParser(
         "tldr", description="Summarises a text from stdin")).parse_args()
@@ -26,6 +40,7 @@ def tldr() -> str:
     print(Chat(description=description).send(sys.stdin.read()))
 
 
+@wrap_errors
 def fixgrammar() -> str:
     args = add_common_args(argparse.ArgumentParser(
         "fixgrammar", description="Corrects grammar and style of a text from stdin")).parse_args()
@@ -34,6 +49,7 @@ def fixgrammar() -> str:
     print(Chat(description=description).send(sys.stdin.read()))
 
 
+@wrap_errors
 def friendly() -> str:
     args = add_common_args(argparse.ArgumentParser(
         "friendly", description="Makes a text from stdin more friendly")).parse_args()
@@ -42,6 +58,7 @@ def friendly() -> str:
     print(Chat(description=description).send(sys.stdin.read()))
 
 
+@wrap_errors
 def title() -> str:
     args = add_common_args(argparse.ArgumentParser(
         "title", description="Generates a title for a text from stdin")).parse_args()
@@ -62,6 +79,7 @@ def git_diff_into_string() -> str:
         return ""
 
 
+@wrap_errors
 def commit() -> str:
     args = add_common_args(argparse.ArgumentParser(
         "commit", description="Generates a commit message for a diff from stdin")).parse_args()
@@ -76,6 +94,7 @@ def commit() -> str:
     os.system(f"git commit -m '{message}'")
 
 
+@wrap_errors
 def branch() -> str:
     args = add_common_args(argparse.ArgumentParser(
         "branch", description="Generates a branch name for a diff from stdin")).parse_args()

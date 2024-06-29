@@ -8,6 +8,12 @@ A ChatGPT-powered commit messages, branch names et cetera
 pipx install git+https://github.com/madnessandcourage/autocommit.git
 ```
 
+## How to updade
+
+```sh
+pipx upgrade autocommit
+```
+
 ## How to use
 
 1. Do some changes
