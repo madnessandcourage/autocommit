@@ -9,7 +9,8 @@ build-backend = "setuptools.build_meta"
 
 [project.scripts]
 tldr = "autocommit.oneoff:tldr"
-grammarly = "autocommit.oneoff:grammarly"
+fixgrammar = "autocommit.oneoff:fixgrammar"
+friendly = "autocommit.oneoff:friendly"
 gentitle = "autocommit.oneoff:title"
 git-ci = "autocommit.oneoff:commit"
 git-br = "autocommit.oneoff:branch"

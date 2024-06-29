@@ -26,9 +26,9 @@ def tldr() -> str:
     print(Chat(description=description).send(sys.stdin.read()))
 
 
-def grammarly() -> str:
+def fixgrammar() -> str:
     args = add_common_args(argparse.ArgumentParser(
-        "grammarly", description="Corrects grammar and style of a text from stdin")).parse_args()
+        "fixgrammar", description="Corrects grammar and style of a text from stdin")).parse_args()
     description = build_prompt(
         "Please rephrase this sentence to correct any grammatical errors and improve its style. Try to keep original tone of message", args.language)
     print(Chat(description=description).send(sys.stdin.read()))
@@ -93,7 +93,7 @@ def branch() -> str:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("preset", choices=[
-                        "commit", "branch", "pr", "grammarly", "friendly", "tldr"], help="Specify preset to follow")
+                        "commit", "branch", "pr", "friendly", "tldr"], help="Specify preset to follow")
 
     args = parser.parse_args()
 
@@ -107,9 +107,6 @@ def main():
 
             case 'pr':
                 description = "Write a text of a pull request a following diff could be content of"
-
-            case "grammarly":
-                description = "Please rephrase this sentence to correct any grammatical errors and improve its style. Try to keep original tone of message"
 
             case 'friendly':
                 description = "Rephrase following text to make it sound more nice and friendly"
