@@ -25,7 +25,6 @@ def add_common_args(parser: argparse.ArgumentParser):
     return parser
 
 
-@wrap_errors
 def build_prompt(base: str, language: str) -> str:
     return f"{base}. \n\nUse language: {language}"
 
