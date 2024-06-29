@@ -1,6 +1,8 @@
 import argparse
 import sys
 from .chat import Chat
+import subprocess
+import os
 
 
 def add_common_args(parser: argparse.ArgumentParser):
@@ -46,6 +48,32 @@ def title() -> str:
     description = build_prompt(
         "Write a title for the following text", args.language)
     print(Chat(description=description).send(sys.stdin.read()))
+
+# Get output of git diff and return it
+
+
+def git_diff_into_string() -> str:
+    try:
+        output = subprocess.check_output(
+            ["git", "diff", '--cached'], universal_newlines=True)
+        return output
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+        return ""
+
+
+def commit() -> str:
+    args = add_common_args(argparse.ArgumentParser(
+        "commit", description="Generates a commit message for a diff from stdin")).parse_args()
+    description = build_prompt(
+        "Write a commit message which could be applied to a following diff", args.language)
+
+    diff = git_diff_into_string()
+    if diff == "":
+        print("No changes, refusing to commit")
+        return
+    message = Chat(description=description).send(diff)
+    os.system(f"git commit -m '{message}'")
 
 
 def main():
