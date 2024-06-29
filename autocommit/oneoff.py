@@ -16,7 +16,6 @@ def wrap_errors(func):
     return wrapper
 
 
-@wrap_errors
 def add_common_args(parser: argparse.ArgumentParser):
     parser.add_argument("--engine", default="gpt3.5-turbo",
                         help="OpenAI engine to use for completion",

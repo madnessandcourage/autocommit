@@ -1,6 +1,6 @@
 [project]
 name = "autocommit"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = ["openai", 'importlib-metadata; python_version>="3.10"']
 
 [build-system]
